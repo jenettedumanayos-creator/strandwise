@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="StrandWise - Your personalized pathway to SHS strands and career recommendations">
+    <title>StrandWise - Senior High School Strand Recommendation System</title>
+    <link rel="stylesheet" href="main.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="logo">StrandWise</div>
+    </header>
+
+    <div class="main-container">
+        <aside class="sidebar" role="navigation" aria-label="Main Navigation">
+            <nav class="tabs-container">
+                <button class="tab active" onclick="switchTab(event, 'home')" aria-selected="true"
+                    role="tab">Home</button>
+                <button class="tab" onclick="switchTab(event, 'assessment')" role="tab">Take Assessment</button>
+                <button class="tab" onclick="switchTab(event, 'results')" role="tab">Results</button>
+                <button class="tab" onclick="switchTab(event, 'strands')" role="tab">Explore Strands</button>
+                <button class="tab" onclick="switchTab(event, 'profile')" role="tab">Profile</button>
+                <button class="tab" onclick="switchTab(event, 'about')" role="tab">About</button>
+                <button class="tab" onclick="switchTab(event, 'help')" role="tab">Help</button>
+            </nav>
+        </aside>
+
+        <div class="content" role="main">
+            <div id="home" class="tab-content active">
+                <section class="home-hero">
+                    <div class="welcome">
+                        <h1 id="welcome-title">Welcome to StrandWise</h1>
+                        <p id="welcome-sub">Your personalized pathway to SHS strands and recommendations.</p>
+                        <div class="hero-actions">
+                            <button class="primary" onclick="startAssessment()">Start Assessment</button>
+                            <a href="#strands" onclick="switchTab(event, 'strands')" class="link">Explore Strands</a>
+                        </div>
+                    </div>
+                    <aside class="ai-tips" id="ai-tips" aria-label="AI Tips">
+                        <h3>AI Tips</h3>
+                        <div class="tip-item">
+                            <strong>Did You Know?</strong>
+                            <p>"AI Analysis shows that students who enjoy Logic often thrive in both STEM and ABM."</p>
+                        </div>
+                        <div class="tip-item">
+                            <strong>Quick Fact</strong>
+                            <p>"The TVL strand isn't just for manual labor; it includes high-demand tech skills like
+                                Animation and Programming."</p>
+                        </div>
+                        <div class="tip-item">
+                            <strong>Motivation</strong>
+                            <p>"Don't rush! Your interests at 15 are the seeds for your career at 25."</p>
+                        </div>
+                    </aside>
+                </section>
+
+                <section class="home-mid">
+                    <div class="progress-card">
+                        <h3>Progress Tracker</h3>
+                        <p id="progress-desc">Complete your assessment to get recommendations.</p>
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progress-fill" style="width: 25%;"></div>
+                        </div>
+                        <small id="progress-percent">25% complete</small>
+                    </div>
+
+                    <div class="value-proposition">
+                        <h3>Why StrandWise?</h3>
+                        <p>Choosing the right strand reduces the risk of shifting courses in college by 30%. We use
+                            data-driven insights to match your personality with DepEd's curriculum.</p>
+                    </div>
+
+                    <div class="strand-section">
+                        <h2 class="section-title">Explore SHS Strands</h2>
+                        <div class="strand-grid">
+
+                            <div class="strand-card stem">
+                                <div class="card-image">
+                                    <img src="images/stem-image.jpg"
+                                        alt="STEM Strand - Science, Technology, Engineering, and Mathematics">
+                                    <span class="tag">Popular</span>
+                                </div>
+                                <div class="card-content">
+                                    <h3>STEM</h3>
+                                    <p>Science, Technology, Engineering, and Math focus.</p>
+                                    <a href="#" class="learn-more">Learn More →</a>
+                                </div>
+                            </div>
+
+                            <div class="strand-card abm">
+                                <div class="card-image">
+                                    <img src="images/abm-image.jpg"
+                                        alt="ABM Strand - Accountancy, Business, and Management">
+                                </div>
+                                <div class="card-content">
+                                    <h3>ABM</h3>
+                                    <p>Business, Accountancy, and Management basics.</p>
+                                    <a href="#" class="learn-more">Learn More →</a>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+
+                </section>
+            </div>
+
+            <div id="assessment" class="tab-content">
+                <div class="assessment-container">
+                    <!-- Assessment Header with Instructions -->
+                    <div class="assessment-header">
+                        <h2>Take Assessment</h2>
+                        <div class="header-info">
+                            <div class="timer-box">
+                                <div class="timer-label">Time Remaining</div>
+                                <div class="timer-display" id="timer">34:12</div>
+                            </div>
+                            <div class="progress-info">
+                                <div class="progress-label">Progress: <span id="current-q">2</span> of <span
+                                        id="total-q">25</span></div>
+                                <div class="progress-bar-assessment">
+                                    <div class="progress-fill-assessment" id="progress-assessment" style="width: 8%;">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="assessment-wrapper">
+                        <!-- Main Assessment Content -->
+                        <div class="assessment-main">
+                            <!-- Section Header -->
+                            <div class="section-header">
+                                <h3 id="section-title">Section 1: Initial Skill Evaluation</h3>
+                                <p id="section-desc">Complete the following questions to help us tailor your experience.
+                                </p>
+                            </div>
+
+                            <!-- Question Card -->
+                            <div class="question-card">
+                                <div class="question-number">Question <span id="q-number">2</span> of 25</div>
+                                <div class="question-text" id="question-text">
+                                    Which of the following is NOT a primary color in the standard additive color model?
+                                </div>
+
+                                <!-- Radio Options -->
+                                <fieldset class="options-group">
+                                    <legend class="sr-only">Answer Options</legend>
+                                    <div class="option">
+                                        <input type="radio" id="opt1" name="question" value="red" class="radio-input">
+                                        <label for="opt1" class="radio-label">Red</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" id="opt2" name="question" value="blue" class="radio-input">
+                                        <label for="opt2" class="radio-label">Blue</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" id="opt3" name="question" value="green" class="radio-input">
+                                        <label for="opt3" class="radio-label">Green</label>
+                                    </div>
+                                    <div class="option">
+                                        <input type="radio" id="opt4" name="question" value="yellow" class="radio-input"
+                                            checked>
+                                        <label for="opt4" class="radio-label">Yellow</label>
+                                    </div>
+                                </fieldset>
+
+                                <!-- Flag Question -->
+                                <div class="flag-question">
+                                    <input type="checkbox" id="flag-check" class="flag-input">
+                                    <label for="flag-check" class="flag-label">Flag Question</label>
+                                </div>
+
+                                <!-- Navigation Buttons -->
+                                <div class="button-group">
+                                    <button class="btn btn-secondary" onclick="previousQuestion()">Previous
+                                        Question</button>
+                                    <button class="btn btn-primary" onclick="nextQuestion()">Next Question</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Instructions Sidebar -->
+                        <aside class="assessment-sidebar">
+                            <div class="instructions-box">
+                                <h4>Assessment Instructions</h4>
+                                <p>Complete the following is NOT a primary color in the standard additive color model?
+                                    Assessment content goes here.</p>
+                                <div class="instructions-tips">
+                                    <h5>Tips:</h5>
+                                    <ul>
+                                        <li>Read each question carefully</li>
+                                        <li>Take your time with answers</li>
+                                        <li>You can review flagged questions later</li>
+                                        <li>All answers are auto-saved</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+
+            <div id="results" class="tab-content">
+                <div class="results-container">
+                    <h1>Results Dashboard</h1>
+
+                    <div class="results-wrapper">
+                        <!-- Left Column: Radar Chart and Summary -->
+                        <div class="results-left">
+                            <!-- Radar Chart -->
+                            <div class="chart-card">
+                                <canvas id="radarChart" class="radar-canvas"></canvas>
+                            </div>
+
+                            <!-- Score Summary &amp; Completion Date -->
+                            <div class="score-summary">
+                                <div class="score-box">
+                                    <h3>Final Score: <span class="score-value">18/25 (72%)</span></h3>
+                                    <p class="assessment-name">Assessment: Initial Skill Evaluation</p>
+                                </div>
+                                <div class="completion-box">
+                                    <h3>Completed: <span class="completion-date">March 2, 2026</span></h3>
+                                    <p class="completion-time">Completed: March 2, 2026</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Strand Results and Recommendations -->
+                        <div class="results-right">
+                            <!-- Strand Results Table -->
+                            <div class="strand-results-card">
+                                <h2>Your Strand Results</h2>
+                                <table class="results-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Strand</th>
+                                            <th>Score</th>
+                                            <th>Recommendation</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td><strong>Creative Arts</strong></td>
+                                            <td>9/10 (90%)</td>
+                                            <td><span class="badge badge-green">Recommended (High Proficiency)</span>
+                                            </td>
+                                            <td><button class="btn-link" onclick="viewDetails('creative-arts')">View
+                                                    Details</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Logical-Mathematical</strong></td>
+                                            <td>4/10 (40%)</td>
+                                            <td><span class="badge badge-yellow">Focus Needed (Moderate)</span></td>
+                                            <td><button class="btn-link" onclick="viewDetails('logical-math')">View
+                                                    Details</button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Linguistic</strong></td>
+                                            <td>5/5 (100%)</td>
+                                            <td><span class="badge badge-blue">Keep it Up!</span></td>
+                                            <td><button class="btn-link" onclick="viewDetails('linguistic')">View
+                                                    Details</button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <!-- Question Review Section -->
+                            <div class="question-review-card">
+                                <h2>Question Review <span class="review-count">(25 items)</span></h2>
+
+                                <!-- Question Item - Incorrect -->
+                                <div class="question-review-item">
+                                    <div class="review-header" onclick="toggleReview(this)">
+                                        <span class="review-toggle">▼</span>
+                                        <span class="question-label">Question 2 <span
+                                                class="status-badge status-incorrect">Incorrect</span>:</span>
+                                        <span class="question-preview">Which of the following is NOT a primary color in
+                                            the standard additive color model?</span>
+                                    </div>
+                                    <div class="review-content active">
+                                        <div class="review-answer">
+                                            <div class="your-answer">
+                                                <strong>Your Answer:</strong>
+                                                <p class="answer-text wrong"><span class="icon">✗</span> Yellow <span
+                                                        class="citation">[cite 3]</span></p>
+                                            </div>
+                                            <div class="correct-answer">
+                                                <strong>Correct Answer:</strong>
+                                                <p class="answer-text correct"><span class="icon">✓</span> Blue <span
+                                                        class="citation">[cite 3]</span></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question Item - Correct -->
+                                <div class="question-review-item">
+                                    <div class="review-header" onclick="toggleReview(this)">
+                                        <span class="review-toggle">▶</span>
+                                        <span class="question-label">Question 3 <span
+                                                class="status-badge status-correct">Correct</span>:</span>
+                                        <span class="question-preview">Which of the following is currently a ted
+                                            greening a positive proml?</span>
+                                    </div>
+                                    <div class="review-content">
+                                        <div class="review-answer">
+                                            <p class="answer-text correct"><span class="icon">✓</span> Your answer was
+                                                correct! <span class="citation">[cite 3]</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Question Item - Incorrect -->
+                                <div class="question-review-item">
+                                    <div class="review-header" onclick="toggleReview(this)">
+                                        <span class="review-toggle">▶</span>
+                                        <span class="question-label">Question 7 <span
+                                                class="status-badge status-incorrect">Incorrect</span>:</span>
+                                        <span class="question-preview">Which of the following is NOT a primary color in
+                                            the standard additive color model?</span>
+                                    </div>
+                                    <div class="review-content">
+                                        <div class="review-answer">
+                                            <p>Review details will appear here when expanded. <span
+                                                    class="citation">[cite 3]</span></p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sidebar: Recommendations -->
+                        <aside class="results-sidebar">
+                            <div class="recommendations-box">
+                                <h3>Recommendations for Growth <span class="citation">[cite 3]</span></h3>
+                                <ul class="recommendations-list">
+                                    <li>Improve Logical-Mathematical skills with basic logic puzzles.</li>
+                                    <li>Explore data analysis resources.</li>
+                                </ul>
+                                <div class="sidebar-actions">
+                                    <button class="btn btn-primary btn-block" onclick="exploreStrands()">
+                                        Explore Recommended Strands <span class="citation">[cite 3]</span>
+                                    </button>
+                                    <button class="btn btn-secondary btn-block" onclick="retakeAssessment()">
+                                        Retake Assessment <span class="citation">[cite 3]</span>
+                                    </button>
+                                    <button class="btn btn-secondary btn-block" onclick="downloadReport()">
+                                        Print/Download Report <span class="citation">[cite 3]</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+
+            <div id="strands" class="tab-content">
+                <h1>Explore Strands</h1>
+                <p>Explore different learning strands here.</p>
+            </div>
+
+            <div id="profile" class="tab-content">
+                <h1>Profile</h1>
+                <p>Your profile information goes here.</p>
+            </div>
+
+            <div id="about" class="tab-content">
+                <h1>About</h1>
+                <p>Learn more about StrandWise here.</p>
+            </div>
+
+            <div id="help" class="tab-content">
+                <h1>Help</h1>
+                <p>Get help and support here.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="main.js"></script>
+</body>
+
+</html>
