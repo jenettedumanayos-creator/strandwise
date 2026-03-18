@@ -1,10 +1,12 @@
-// Sample Data: Mock scores from the user's assessment
+const API_BASE = 'api';
+
+// Default values shown before a user submits real answers.
 const userAssessmentResults = {
-    science: 90,
-    math: 85,
-    business: 40,
-    arts: 75,
-    technology: 95
+    science: 70,
+    math: 68,
+    business: 64,
+    arts: 66,
+    technology: 72
 };
 
 /**
@@ -65,9 +67,6 @@ function updateUIWithMatches() {
     });
 }
 
-// Initialize the UI update
-document.addEventListener('DOMContentLoaded', updateUIWithMatches);
-
 // --- Tab Navigation with Enhanced Features ---
 function switchTab(evt, tabName) {
     // Prevent default if it's an anchor tag
@@ -101,10 +100,11 @@ function switchTab(evt, tabName) {
     }
 }
 
-// Mock user data with expanded strands
+// Frontend user state. Updated from api/session.php.
 const mockUser = {
     name: 'Alex',
     progress: 25, // percent
+    isAuthenticated: false,
     strands: [
         { id: 'stem', title: 'STEM', desc: 'Science, technology, engineering, and math focus.', image: 'images/stem.jpg' },
         { id: 'abm', title: 'ABM', desc: 'Business, accounting, and management basics.', image: 'images/abm.jpg' },
@@ -113,6 +113,25 @@ const mockUser = {
         { id: 'tvl', title: 'TVL', desc: 'Technical-Vocational-Livelihood skills and training.', image: 'images/tvl.jpg' }
     ]
 };
+
+let latestRecommendationPayload = null;
+
+async function loadSessionUser() {
+    try {
+        const response = await fetch(`${API_BASE}/session.php`, {
+            method: 'GET',
+            credentials: 'same-origin'
+        });
+        const data = await response.json();
+
+        if (data.success && data.authenticated && data.user) {
+            mockUser.name = data.user.name || mockUser.name;
+            mockUser.isAuthenticated = true;
+        }
+    } catch (err) {
+        console.warn('Session check failed:', err);
+    }
+}
 
 /**
  * Render home page with personalized content and progress tracking
@@ -140,6 +159,21 @@ function renderHome() {
     }
     if (percent) {
         percent.textContent = mockUser.progress + '% complete';
+    }
+}
+
+function updateSummaryFromAssessment() {
+    const answered = Object.keys(assessmentState.answers).length;
+    const progressPercent = Math.round((answered / assessmentState.totalQuestions) * 100);
+    mockUser.progress = progressPercent;
+
+    const fill = document.getElementById('progress-fill');
+    const percent = document.getElementById('progress-percent');
+    if (fill) {
+        fill.style.width = progressPercent + '%';
+    }
+    if (percent) {
+        percent.textContent = progressPercent + '% complete';
     }
 }
 
@@ -224,7 +258,8 @@ let assessmentState = {
     answers: {},
     flaggedQuestions: new Set(),
     timeRemaining: 2052, // 34:12 in seconds
-    timerInterval: null
+    timerInterval: null,
+    assessmentId: null
 };
 
 /**
@@ -235,6 +270,9 @@ function initAssessment() {
     loadQuestion(assessmentState.currentQuestion);
     
     // Start timer
+    if (assessmentState.timerInterval) {
+        clearInterval(assessmentState.timerInterval);
+    }
     startTimer();
 }
 
@@ -279,19 +317,20 @@ function loadQuestion(questionNumber) {
         // Add event listener to save answer
         optionsGroup.querySelector(`#${inputId}`).addEventListener('change', () => {
             assessmentState.answers[questionNumber] = index;
+            updateSummaryFromAssessment();
         });
     });
     
     // Update flag checkbox
     const flagCheckbox = document.getElementById('flag-check');
     flagCheckbox.checked = assessmentState.flaggedQuestions.has(questionNumber);
-    flagCheckbox.addEventListener('change', () => {
+    flagCheckbox.onchange = () => {
         if (flagCheckbox.checked) {
             assessmentState.flaggedQuestions.add(questionNumber);
         } else {
             assessmentState.flaggedQuestions.delete(questionNumber);
         }
-    });
+    };
     
     // Update progress bar
     updateProgressBar();
@@ -358,17 +397,153 @@ function nextQuestion() {
  */
 function submitAssessment() {
     const confirmed = confirm('Are you sure you want to submit your assessment? You cannot go back to edit answers.');
-    if (confirmed) {
-        clearInterval(assessmentState.timerInterval);
-        // Save assessment results
-        console.log('Assessment submitted!', assessmentState.answers);
-        alert('Assessment submitted successfully! Your results are being processed.');
-        // Navigate to results page
+    if (!confirmed) {
+        return;
+    }
+
+    if (!mockUser.isAuthenticated) {
+        alert('Please log in first before submitting your assessment.');
+        window.location.href = 'login.html';
+        return;
+    }
+
+    const answered = Object.keys(assessmentState.answers).length;
+    if (answered === 0) {
+        alert('Please answer at least one question before submitting.');
+        return;
+    }
+
+    clearInterval(assessmentState.timerInterval);
+    saveAssessmentAndRecommend();
+}
+
+async function saveAssessmentAndRecommend() {
+    try {
+        const saveResponse = await fetch(`${API_BASE}/save_assessment.php`, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                assessment_name: 'Initial Skill Evaluation',
+                total_questions: assessmentState.totalQuestions,
+                duration_seconds: 2052 - assessmentState.timeRemaining,
+                answers: assessmentState.answers
+            })
+        });
+
+        const saveData = await saveResponse.json();
+        if (!saveData.success) {
+            throw new Error(saveData.message || 'Failed to save assessment.');
+        }
+
+        assessmentState.assessmentId = saveData.assessment_id;
+
+        const recoResponse = await fetch(`${API_BASE}/recommend.php`, {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                assessment_id: assessmentState.assessmentId
+            })
+        });
+
+        const recoData = await recoResponse.json();
+        if (!recoData.success) {
+            throw new Error(recoData.message || 'Failed to generate recommendation.');
+        }
+
+        latestRecommendationPayload = recoData;
+        applyRecommendationResults(recoData);
+
+        alert('Assessment submitted successfully. Your recommendations are now ready.');
+
         const resultsTab = document.querySelector('.tab[onclick*="results"]');
         if (resultsTab) {
             switchTab({ currentTarget: resultsTab }, 'results');
         }
+    } catch (err) {
+        console.error(err);
+        alert(`Submission failed: ${err.message}`);
     }
+}
+
+function getRecommendationBadge(score) {
+    if (score >= 80) {
+        return { className: 'badge-green', label: 'Recommended (High Proficiency)' };
+    }
+    if (score >= 65) {
+        return { className: 'badge-yellow', label: 'Potential Match (Moderate)' };
+    }
+    return { className: 'badge-blue', label: 'Needs Development' };
+}
+
+function applyRecommendationResults(payload) {
+    const recommendations = Array.isArray(payload.recommendations) ? payload.recommendations : [];
+    if (recommendations.length === 0) {
+        return;
+    }
+
+    // Update summary score and completion date.
+    const top = recommendations[0];
+    const scoreValueEl = document.querySelector('.score-value');
+    const completionDateEl = document.querySelector('.completion-date');
+    const completionTimeEl = document.querySelector('.completion-time');
+
+    if (scoreValueEl) {
+        scoreValueEl.textContent = `${Math.round(top.score)} / 100 (${Math.round(top.confidence)}% confidence)`;
+    }
+    const now = new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+    if (completionDateEl) {
+        completionDateEl.textContent = now;
+    }
+    if (completionTimeEl) {
+        completionTimeEl.textContent = `Completed: ${now}`;
+    }
+
+    // Update recommendation table.
+    const body = document.querySelector('.results-table tbody');
+    if (body) {
+        body.innerHTML = '';
+        recommendations.slice(0, 5).forEach((item) => {
+            const badge = getRecommendationBadge(item.score);
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${item.strand_code}</strong></td>
+                <td>${Math.round(item.score)} / 100</td>
+                <td><span class="badge ${badge.className}">${badge.label}</span></td>
+                <td><button class="btn-link" onclick="viewDetails('${item.strand_code.toLowerCase()}')">View Details</button></td>
+            `;
+            body.appendChild(row);
+        });
+    }
+
+    // Update growth recommendations from top strand factors.
+    const growthList = document.querySelector('.recommendations-list');
+    if (growthList && top.top_factors) {
+        growthList.innerHTML = '';
+        top.top_factors.forEach((factor) => {
+            const li = document.createElement('li');
+            li.textContent = `${factor.factor_label}: ${factor.factor_value}% readiness (${Math.round(factor.contribution)} contribution).`;
+            growthList.appendChild(li);
+        });
+    }
+
+    // Update radar chart to reflect calculated feature profile.
+    if (payload.features) {
+        resultsData.skills = [
+            { name: 'Science', value: Math.round(payload.features.science || 0) },
+            { name: 'Math', value: Math.round(payload.features.math || 0) },
+            { name: 'Business', value: Math.round(payload.features.business || 0) },
+            { name: 'Arts', value: Math.round(payload.features.arts || 0) },
+            { name: 'Technology', value: Math.round(payload.features.technology || 0) },
+            { name: 'Communication', value: Math.round(payload.features.communication || 0) }
+        ];
+    }
+    onResultsTabActive();
 }
 
 /**
@@ -400,12 +575,6 @@ function startTimer() {
         }
     }, 1000);
 }
-
-// Initialize assessment when page loads
-document.addEventListener('DOMContentLoaded', () => {
-    renderHome();
-    updateUIWithMatches();
-});
 
 // ====== RESULTS PAGE FUNCTIONALITY ======
 
@@ -611,6 +780,9 @@ function retakeAssessment() {
         assessmentState.answers = {};
         assessmentState.flaggedQuestions = new Set();
         assessmentState.timeRemaining = 2052;
+        assessmentState.assessmentId = null;
+        latestRecommendationPayload = null;
+        updateSummaryFromAssessment();
         
         // Navigate to assessment tab
         const assessmentTab = document.querySelector('.tab[onclick*="assessment"]');
@@ -671,11 +843,24 @@ function generateReport() {
     report += 'STRAND RECOMMENDATIONS\n';
     report += '───────────────────────────────────────────────────────────────\n\n';
     
-    resultsData.strandResults.forEach(strand => {
-        report += `${strand.name}\n`;
-        report += `Score: ${strand.score}/${strand.total} (${strand.percentage}%)\n`;
-        report += `Recommendation: ${strand.recommendation}\n\n`;
-    });
+    if (latestRecommendationPayload && Array.isArray(latestRecommendationPayload.recommendations)) {
+        latestRecommendationPayload.recommendations.forEach(strand => {
+            report += `${strand.strand_code}\n`;
+            report += `Score: ${Math.round(strand.score)}/100\n`;
+            report += `Confidence: ${Math.round(strand.confidence)}%\n`;
+            report += `Top factors:\n`;
+            (strand.top_factors || []).forEach(factor => {
+                report += `  - ${factor.factor_label}: ${factor.factor_value}% (contribution ${factor.contribution})\n`;
+            });
+            report += '\n';
+        });
+    } else {
+        resultsData.strandResults.forEach(strand => {
+            report += `${strand.name}\n`;
+            report += `Score: ${strand.score}/${strand.total} (${strand.percentage}%)\n`;
+            report += `Recommendation: ${strand.recommendation}\n\n`;
+        });
+    }
     
     report += '═══════════════════════════════════════════════════════════════\n';
     report += 'Thank you for using StrandWise!\n';
@@ -708,10 +893,12 @@ window.switchTab = function(evt, tabName) {
 };
 
 // Initialize on page load
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadSessionUser();
     renderHome();
     updateUIWithMatches();
-    
+    updateSummaryFromAssessment();
+
     // Initialize results if already visible
     if (document.getElementById('results')?.classList.contains('active')) {
         setTimeout(() => {
