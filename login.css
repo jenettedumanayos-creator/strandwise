@@ -9,19 +9,19 @@
 }
 
 :root {
-    --primary-color: #2563eb;
-    --primary-dark: #1e40af;
-    --primary-light: #3b82f6;
-    --success-color: #10b981;
+    --primary-color: #2563EB;
+    --primary-dark: #1E40AF;
+    --primary-light: #0EA5E9;
+    --success-color: #2563EB;
     --error-color: #ef4444;
-    --bg-light: #f8fafc;
+    --bg-light: #EFF6FF;
     --bg-white: #ffffff;
-    --text-dark: #1f2937;
-    --text-gray: #6b7280;
-    --border-light: #e5e7eb;
+    --text-dark: #1E3A8A;
+    --text-gray: #64748B;
+    --border-light: #E0E7FF;
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(37, 99, 235, 0.1);
+    --shadow-lg: 0 10px 15px rgba(37, 99, 235, 0.15);
 }
 
 body {
@@ -41,7 +41,7 @@ body {
 /* ---- Brand Panel (Left) ---- */
 .brand-panel {
     flex: 0 0 45%;
-    background: linear-gradient(135deg, #2563eb 0%, #1e40af 50%, #1e3a8a 100%);
+    background: #2563EB;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -165,7 +165,7 @@ body {
 }
 
 .form-tab.active {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: #2563EB;
     color: #ffffff;
     box-shadow: var(--shadow-md);
 }
@@ -349,7 +349,7 @@ body {
 .btn-submit {
     width: 100%;
     padding: 14px 24px;
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: #2563EB;
     color: #ffffff;
     border: none;
     border-radius: 10px;
@@ -447,3 +447,123 @@ body {
         padding: 24px 20px;
     }
 }
+
+/* ===== LOGIN PAGE POLISH LAYER ===== */
+
+:root {
+    --login-bg: #f4f8ff;
+    --login-surface: #ffffff;
+    --login-surface-soft: #f7fbff;
+    --login-brand: #2563eb;
+    --login-brand-dark: #1e40af;
+    --login-text: #0f172a;
+    --login-text-soft: #475569;
+    --login-border: #dbe5f3;
+    --login-shadow: 0 18px 36px rgba(15, 23, 42, 0.08);
+}
+
+body {
+    background: var(--login-bg);
+    color: var(--login-text);
+    font-family: 'Manrope', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.login-page {
+    padding: 20px;
+    gap: 20px;
+}
+
+.brand-panel {
+    background: var(--login-brand);
+    border-radius: 20px;
+    box-shadow: var(--login-shadow);
+}
+
+.brand-panel::before,
+.brand-panel::after {
+    display: none;
+}
+
+.brand-content h1,
+.brand-content h2,
+.brand-content p,
+.feature-item {
+    color: #ffffff;
+}
+
+.form-panel {
+    background: var(--login-surface);
+    border: 1px solid var(--login-border);
+    border-radius: 20px;
+    box-shadow: var(--login-shadow);
+}
+
+.auth-form {
+    background: var(--login-surface);
+    border: 1px solid var(--login-border);
+    border-radius: 16px;
+}
+
+.auth-form h2 {
+    color: var(--login-text);
+    font-family: 'Sora', 'Inter', sans-serif;
+}
+
+.auth-form p,
+.form-group label,
+.form-footer {
+    color: var(--login-text-soft);
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    border: 1px solid var(--login-border);
+    border-radius: 12px;
+    background: var(--login-surface-soft);
+    color: var(--login-text);
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: #93c5fd;
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.12);
+    outline: none;
+}
+
+.btn-primary,
+.submit-btn {
+    background: var(--login-brand);
+    border: 1px solid var(--login-brand);
+    color: #ffffff;
+    border-radius: 12px;
+}
+
+.btn-primary:hover,
+.submit-btn:hover {
+    background: var(--login-brand-dark);
+    border-color: var(--login-brand-dark);
+}
+
+.toggle-btn,
+.switch-link,
+.back-link {
+    color: var(--login-brand-dark);
+}
+
+@media (max-width: 900px) {
+    .login-page {
+        padding: 12px;
+        gap: 12px;
+    }
+
+    .brand-panel,
+    .form-panel {
+        border-radius: 16px;
+    }
+}
+
+
+
+

@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="StrandWise - Your personalized pathway to SHS strands and career recommendations">
     <title>StrandWise - Senior High School Strand Recommendation Systems</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 </head>
@@ -363,13 +368,285 @@
             </div>
 
             <div id="strands" class="tab-content">
-                <h1>Explore Strands</h1>
-                <p>Explore different learning strands here.</p>
+                <div class="strands-section-full">
+                    <h1>Explore SHS Strands</h1>
+                    <p class="section-description">Discover your ideal learning path. Each strand opens doors to unique
+                        career opportunities and personal growth.</p>
+
+                    <div class="strand-carousel-wrapper">
+                        <button class="carousel-arrow carousel-arrow-left" id="scrollLeft" aria-label="Scroll left">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </button>
+                        <div class="strand-grid-full" id="strandGrid">
+                            <!-- STEM Strand -->
+                            <div class="strand-card stem">
+                                <div class="card-image">
+                                    <img src="images/stem.jpg"
+                                        alt="STEM Strand - Science, Technology, Engineering, and Mathematics">
+                                    <span class="tag">Popular</span>
+                                </div>
+                                <div class="card-content">
+                                    <h3>STEM</h3>
+                                    <p class="strand-subtitle">Science, Technology, Engineering & Mathematics</p>
+                                    <p class="strand-definition">
+                                        STEM focuses on analytical thinking and technical problem-solving. Perfect for
+                                        students interested in research, innovation, programming, engineering projects,
+                                        and
+                                        scientific discovery. Leads to careers in technology, medicine, aerospace, and
+                                        environmental science.
+                                    </p>
+                                    <ul class="strand-highlights">
+                                        <li>Advanced Mathematics & Physics</li>
+                                        <li>Biology & Chemistry</li>
+                                        <li>Computer Programming</li>
+                                        <li>Research Methods</li>
+                                    </ul>
+                                    <a href="#" class="learn-more">Learn More →</a>
+                                </div>
+                            </div>
+
+                            <!-- ABM Strand -->
+                            <div class="strand-card abm">
+                                <div class="card-image">
+                                    <img src="images/abm.jpg" alt="ABM Strand - Accountancy, Business, and Management">
+                                    <span class="tag">In-Demand</span>
+                                </div>
+                                <div class="card-content">
+                                    <h3>ABM</h3>
+                                    <p class="strand-subtitle">Accountancy, Business & Management</p>
+                                    <p class="strand-definition">
+                                        ABM prepares students for leadership roles in the business world. Ideal for
+                                        aspiring
+                                        entrepreneurs, accountants, and managers. Emphasizes financial literacy,
+                                        strategic
+                                        thinking, and organizational skills. Opens paths to finance, entrepreneurship,
+                                        and
+                                        corporate management.
+                                    </p>
+                                    <ul class="strand-highlights">
+                                        <li>Accounting & Finance</li>
+                                        <li>Business Management</li>
+                                        <li>Economics & Trade</li>
+                                        <li>Entrepreneurship</li>
+                                    </ul>
+                                    <a href="#" class="learn-more">Learn More →</a>
+                                </div>
+                            </div>
+
+                            <!-- HUMSS Strand -->
+                            <div class="strand-card humss">
+                                <div class="card-image">
+                                    <img src="images/humss.jpg" alt="HUMSS Strand - Humanities and Social Sciences">
+                                    <span class="tag">Creative</span>
+                                </div>
+                                <div class="card-content">
+                                    <h3>HUMSS</h3>
+                                    <p class="strand-subtitle">Humanities & Social Sciences</p>
+                                    <p class="strand-definition">
+                                        HUMSS explores human behavior, culture, and society. Suited for students
+                                        passionate
+                                        about history, literature, psychology, and social change. Develops critical
+                                        thinking
+                                        and communication skills for careers in law, journalism, education, and public
+                                        service.
+                                    </p>
+                                    <ul class="strand-highlights">
+                                        <li>History & Culture</li>
+                                        <li>Psychology & Sociology</li>
+                                        <li>Literature & Languages</li>
+                                        <li>Philosophy & Ethics</li>
+                                    </ul>
+                                    <a href="#" class="learn-more">Learn More →</a>
+                                </div>
+                            </div>
+
+                            <!-- TVL Strand -->
+                            <div class="strand-card tvl">
+                                <div class="card-image">
+                                    <img src="images/tvl.jpg" alt="TVL Strand - Technical, Vocational and Livelihood">
+                                    <span class="tag">Practical</span>
+                                </div>
+                                <div class="card-content">
+                                    <h3>TVL</h3>
+                                    <p class="strand-subtitle">Technical, Vocational & Livelihood</p>
+                                    <p class="strand-definition">
+                                        TVL combines hands-on training with real-world skills. Designed for students
+                                        seeking
+                                        immediate employment or further technical training. Covers trades, digital
+                                        skills,
+                                        hospitality, and specialized crafts. Direct pathway to lucrative technical
+                                        careers.
+                                    </p>
+                                    <ul class="strand-highlights">
+                                        <li>Technical Trades</li>
+                                        <li>Digital Skills & Animation</li>
+                                        <li>Hospitality & Tourism</li>
+                                        <li>Culinary Arts</li>
+                                    </ul>
+                                    <a href="#" class="learn-more">Learn More →</a>
+                                </div>
+                            </div>
+
+                            <!-- GAS Strand -->
+                            <div class="strand-card gas">
+                                <div class="card-image">
+                                    <img src="images/gas.jpg" alt="GAS Strand - General Academic Strand">
+                                    <span class="tag">Flexible</span>
+                                </div>
+                                <div class="card-content">
+                                    <h3>GAS</h3>
+                                    <p class="strand-subtitle">General Academic Strand</p>
+                                    <p class="strand-definition">
+                                        GAS offers flexibility for students exploring multiple interests. A balanced
+                                        curriculum across sciences, social sciences, and humanities. Ideal for undecided
+                                        students or those pursuing diverse college programs. Strengthens foundational
+                                        knowledge across all disciplines.
+                                    </p>
+                                    <ul class="strand-highlights">
+                                        <li>Balanced Academic Approach</li>
+                                        <li>Diverse Subject Exposure</li>
+                                        <li>General Education Foundation</li>
+                                        <li>Exploration Opportunities</li>
+                                    </ul>
+                                    <a href="#" class="learn-more">Learn More →</a>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-arrow carousel-arrow-right" id="scrollRight" aria-label="Scroll right">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"
+                                fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+                                stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </button>
+                    </div>
+
+                    <section class="strand-comparison">
+                        <h2>Quick Comparison</h2>
+                        <p>Not sure which strand suits you? Consider these questions:</p>
+                        <div class="comparison-grid">
+                            <div class="comparison-card">
+                                <h4>Do you enjoy...</h4>
+                                <ul>
+                                    <li><strong>Logic & Problem Solving?</strong> → STEM</li>
+                                    <li><strong>Numbers & Finance?</strong> → ABM</li>
+                                    <li><strong>History & People?</strong> → HUMSS</li>
+                                    <li><strong>Hands-on Work?</strong> → TVL</li>
+                                    <li><strong>A Mix of Everything?</strong> → GAS</li>
+                                </ul>
+                            </div>
+                            <div class="comparison-card">
+                                <h4>Your Future Path</h4>
+                                <ul>
+                                    <li><strong>Tech, Medicine, Science</strong> → STEM</li>
+                                    <li><strong>Business, Finance, Entrepreneurship</strong> → ABM</li>
+                                    <li><strong>Law, Education, Media, Government</strong> → HUMSS</li>
+                                    <li><strong>Trades, Craftwork, Hospitality</strong> → TVL</li>
+                                    <li><strong>Still Exploring?</strong> → GAS</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </section>
+                </div>
             </div>
 
             <div id="profile" class="tab-content">
-                <h1>Profile</h1>
-                <p>Your profile information goes here.</p>
+                <div class="profile-new-container">
+                    <!-- Profile Header -->
+                    <section class="profile-header-card">
+                        <div class="avatar-section">
+                            <div class="avatar-circle">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                                    stroke="currentColor" stroke-width="1.5" stroke-linecap="round"
+                                    stroke-linejoin="round">
+                                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                    <circle cx="12" cy="7" r="4"></circle>
+                                </svg>
+                            </div>
+                            <div class="profile-title-block">
+                                <h1 class="profile-name">Welcome, Maria! 🚀</h1>
+                                <p class="profile-school">Manila Science High School</p>
+                                <p class="profile-subtext">Your journey
+                                    to discover the perfect strand starts here. We're here to guide you every step of
+                                    the way.</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <!-- Main Grid: Left Column + Right Column -->
+                    <div class="profile-grid-main">
+                        <!-- LEFT COLUMN -->
+                        <div class="profile-left-column">
+                            <!-- Personal Details Card -->
+                            <section class="profile-card">
+                                <h2 class="card-title">Your Profile 📋</h2>
+                                <div class="detail-row">
+                                    <span class="detail-label">Full Name</span>
+                                    <span class="detail-value">Maria Santos</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Age</span>
+                                    <span class="detail-value">15 years old</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Grade Level</span>
+                                    <span class="detail-value">Grade 10</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Email</span>
+                                    <span class="detail-value">maria.santos@example.com</span>
+                                </div>
+                            </section>
+
+                            <!-- Academic Interests Card -->
+                            <section class="profile-card">
+                                <h2 class="card-title">Your Strengths 💡</h2>
+                                <div class="interests-container">
+                                    <span class="interest-badge">Mathematics</span>
+                                    <span class="interest-badge">Science</span>
+                                    <span class="interest-badge">Technology</span>
+                                    <span class="interest-badge">Engineering</span>
+                                    <span class="interest-badge">Critical Thinking</span>
+                                    <span class="interest-badge">Problem Solving</span>
+                                </div>
+                            </section>
+                        </div>
+
+                        <!-- RIGHT COLUMN -->
+                        <div class="profile-right-column">
+                            <!-- Strand Recommendation Card -->
+                            <section class="profile-card strand-recommendation">
+                                <h2 class="card-title">Top Recommended Strand</h2>
+                                <div class="strand-match-box">
+                                    <div class="strand-icon">🎯</div>
+                                    <h3 class="strand-name">STEM</h3>
+                                    <p class="strand-description">Science, Technology, Engineering & Mathematics -
+                                        Perfect for innovators and problem-solvers</p>
+                                    <div class="match-percentage">
+                                        <span class="percentage-label">Compatibility</span>
+                                        <span class="percentage-value">92%</span>
+                                    </div>
+                                    <div class="match-bar">
+                                        <div class="match-bar-fill" style="width: 92%"></div>
+                                    </div>
+                                </div>
+                                <p class="strand-cta-text">Based on your strengths and interests, this strand aligns
+                                    perfectly with your goals</p>
+                                <button class="btn-take-assessment">Start Assessment</button>
+                            </section>
+                        </div>
+                    </div>
+
+                    <!-- Action Section -->
+                    <div class="profile-action-row">
+                        <button class="btn-secondary" onclick="editProfile()">📝 Edit Profile</button>
+                        <button class="btn-primary-action" onclick="startAssessment()">🚀 Explore More Strands</button>
+                    </div>
+                </div>
             </div>
 
             <div id="about" class="tab-content">

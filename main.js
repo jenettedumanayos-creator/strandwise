@@ -1,5 +1,47 @@
 const API_BASE = 'api';
 
+// ====== STRAND CAROUSEL FUNCTIONALITY ======
+
+function initializeStrandCarousel() {
+    const gridElement = document.getElementById('strandGrid');
+    const leftArrow = document.getElementById('scrollLeft');
+    const rightArrow = document.getElementById('scrollRight');
+
+    if (!gridElement || !leftArrow || !rightArrow) return;
+
+    const scrollAmount = 320; // Scroll distance per click
+
+    leftArrow.addEventListener('click', () => {
+        gridElement.scrollBy({
+            left: -scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+
+    rightArrow.addEventListener('click', () => {
+        gridElement.scrollBy({
+            left: scrollAmount,
+            behavior: 'smooth'
+        });
+    });
+
+    // Update arrow visibility based on scroll position
+    function updateArrowStates() {
+        const hasScrollLeft = gridElement.scrollLeft > 0;
+        const hasScrollRight = gridElement.scrollLeft < (gridElement.scrollWidth - gridElement.clientWidth - 10);
+
+        leftArrow.style.opacity = hasScrollLeft ? '1' : '0.5';
+        leftArrow.style.pointerEvents = hasScrollLeft ? 'auto' : 'none';
+
+        rightArrow.style.opacity = hasScrollRight ? '1' : '0.5';
+        rightArrow.style.pointerEvents = hasScrollRight ? 'auto' : 'none';
+    }
+
+    gridElement.addEventListener('scroll', updateArrowStates);
+    window.addEventListener('resize', updateArrowStates);
+    updateArrowStates();
+}
+
 // Default values shown before a user submits real answers.
 const userAssessmentResults = {
     science: 70,
@@ -46,7 +88,7 @@ function updateUIWithMatches() {
             
             // Determine badge color based on match score intensity
             if (matchPercentage >= 85) {
-                badge.style.setProperty('--badge-color', '#10b981'); // High match (Green)
+                badge.style.setProperty('--badge-color', '#16a878'); // High match (Green)
             } else if (matchPercentage >= 70) {
                 badge.style.setProperty('--badge-color', '#f59e0b'); // Medium match (Amber)
             } else if (matchPercentage >= 50) {
@@ -207,6 +249,21 @@ function startAssessment() {
         switchTab({ currentTarget: assessmentTab }, 'assessment');
         initAssessment();
     }
+}
+
+/**
+ * Open Edit Profile modal or navigate to edit mode
+ */
+function editProfile() {
+    // For now, show an alert that editing is in development
+    // In production, this would open a modal or navigate to an edit form
+    alert('Profile editing feature is coming soon! You will be able to update your personal information, subjects, and skills.');
+    
+    // Placeholder for future implementation:
+    // You could open a modal here, enable edit mode on the profile sections,
+    // or navigate to a separate edit profile page
+    
+    // Example: switchTab(null, 'edit-profile');
 }
 
 // ====== ASSESSMENT PAGE FUNCTIONALITY ======
@@ -898,6 +955,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     renderHome();
     updateUIWithMatches();
     updateSummaryFromAssessment();
+    initializeStrandCarousel();
 
     // Initialize results if already visible
     if (document.getElementById('results')?.classList.contains('active')) {
